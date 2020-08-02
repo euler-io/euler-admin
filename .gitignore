@@ -102,3 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+euler-admin/docker-compose/dev-certificates
+yarn

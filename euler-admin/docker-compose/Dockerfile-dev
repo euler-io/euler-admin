@@ -1,0 +1,8 @@
+FROM node:14
+
+WORKDIR /src
+
+ENV PATH /src/node_modules/.bin:$PATH
+
+# start app
+CMD ["gatsby", "develop", "-H", "0.0.0.0"]
