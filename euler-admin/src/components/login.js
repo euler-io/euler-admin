@@ -28,7 +28,6 @@ class Login extends React.Component {
   }
 
   handleSubmit = event => {
-    console.info(qs.parse(this.props.location.search.replace('?', '')))
     event.preventDefault()
     this.setState({ loginError: false })
     const { username, password } = this.state

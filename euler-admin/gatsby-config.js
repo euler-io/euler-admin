@@ -43,5 +43,6 @@ module.exports = {
     // To learn more, visit: https://gatsby.dev/offline
     `gatsby-plugin-offline`,
     `gatsby-plugin-postcss`,
+    `gatsby-plugin-use-query-params`,
   ],
 }
