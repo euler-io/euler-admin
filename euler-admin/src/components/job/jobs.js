@@ -10,15 +10,12 @@ import {
   TablePagination,
 } from '@material-ui/core'
 import Moment from 'react-moment'
-import qs from 'qs'
 import { navigate } from 'gatsby'
-import { useQueryParam, NumberParam, StringParam } from 'use-query-params'
+import qs from 'qs'
 
 class Jobs extends React.Component {
   state = {
     data: null,
-    page: 0,
-    rowsPerPage: 1,
   }
 
   constructor(props) {
@@ -31,11 +28,13 @@ class Jobs extends React.Component {
   }
 
   componentDidUpdate() {
-    console.info(this.props)
+    //this.listJobs()
   }
 
   listJobs() {
-    this.service.listJobs({}).then(response => {
+    const { page, size } = this.getParams()
+    const params = { page: page, size: size }
+    return this.service.listJobs(params).then(response => {
       this.setState({
         data: response.data,
       })
@@ -43,26 +42,36 @@ class Jobs extends React.Component {
   }
 
   handleChangePage = (event, newPage) => {
-    //setPage(newPage);
     this.updateParams({ page: newPage })
   }
 
   handleChangeRowsPerPage = event => {
-    //setRowsPerPage(parseInt(event.target.value, 10));
-    //setPage(0);
+    this.updateParams({ size: Number.parseInt(event.target.value), page: 0 })
   }
 
   updateParams(params) {
     params = {
-      //...qs.parse(this.props.location.search.replace('?', '')),
+      ...this.getParams(),
       ...params,
     }
     navigate(`${this.props.path}?${qs.stringify(params)}`)
   }
-  
+
+  getParams() {
+    const params = {
+      page: '0',
+      size: '10',
+      ...qs.parse(this.props.location.search.replace('?', '')),
+    }
+    return {
+      page: Number.parseInt(params.page),
+      size: Number.parseInt(params.size),
+    }
+  }
+
   render() {
-   // const [page, setPage] = useQueryParam('page', NumberParam)
-    const { data, rowsPerPage } = this.state
+    const { data } = this.state
+    const { page, size } = this.getParams()
     return (
       <>
         <h1>Jobs</h1>
@@ -119,11 +128,11 @@ class Jobs extends React.Component {
             <TableFooter>
               <TableRow>
                 <TablePagination
-                  rowsPerPageOptions={[1, 50, 100]}
+                  rowsPerPageOptions={[10, 50, 100]}
                   colSpan={5}
                   count={data.total}
-                  rowsPerPage={rowsPerPage}
-                  //page={(event, newPage) => setPage(newPage)}
+                  rowsPerPage={size}
+                  page={page}
                   SelectProps={{
                     inputProps: { 'aria-label': 'rows per page' },
                     native: true,
