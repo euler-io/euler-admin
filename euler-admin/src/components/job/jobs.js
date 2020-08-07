@@ -27,8 +27,10 @@ class Jobs extends React.Component {
     this.listJobs()
   }
 
-  componentDidUpdate() {
-    //this.listJobs()
+  componentDidUpdate(oldProps) {
+    if (oldProps !== this.props) {
+      this.listJobs()
+    }
   }
 
   listJobs() {
@@ -91,36 +93,52 @@ class Jobs extends React.Component {
                 <TableRow key={row.id}>
                   <TableCell>{row.status}</TableCell>
                   <TableCell>
-                    <Moment
-                      format="DD/MM/YYYY HH:mm:ss"
-                      parse="YYYY-MM-DDTHH:mm:ss.SSSZs"
-                    >
-                      {row['creation-date']}
-                    </Moment>
+                    {
+                      row['creation-date'] && (
+                        <Moment
+                          format="DD/MM/YYYY HH:mm:ss"
+                          parse="YYYY-MM-DDTHH:mm:ss.SSSZs"
+                        >
+                          {row['creation-date']}
+                        </Moment>
+                      )
+                    }
                   </TableCell>
                   <TableCell>
-                    <Moment
-                      format="DD/MM/YYYY HH:mm:ss"
-                      parse="YYYY-MM-DDTHH:mm:ss.SSSZs"
-                    >
-                      {row['enqueued-date']}
-                    </Moment>
+                    {
+                      row['enqueued-date'] && (
+                        <Moment
+                          format="DD/MM/YYYY HH:mm:ss"
+                          parse="YYYY-MM-DDTHH:mm:ss.SSSZs"
+                        >
+                          {row['enqueued-date']}
+                        </Moment>
+                      )
+                    }
                   </TableCell>
                   <TableCell>
-                    <Moment
-                      format="DD/MM/YYYY HH:mm:ss"
-                      parse="YYYY-MM-DDTHH:mm:ss.SSSZs"
-                    >
-                      {row['start-date']}
-                    </Moment>
+                    {
+                      row['start-date'] && (
+                        <Moment
+                          format="DD/MM/YYYY HH:mm:ss"
+                          parse="YYYY-MM-DDTHH:mm:ss.SSSZs"
+                        >
+                          {row['start-date']}
+                        </Moment>
+                      )
+                    }
                   </TableCell>
                   <TableCell>
-                    <Moment
-                      format="DD/MM/YYYY HH:mm:ss"
-                      parse="YYYY-MM-DDTHH:mm:ss.SSSZs"
-                    >
-                      {row['end-date']}
-                    </Moment>
+                    {
+                      row['end-date'] && (
+                        <Moment
+                          format="DD/MM/YYYY HH:mm:ss"
+                          parse="YYYY-MM-DDTHH:mm:ss.SSSZs"
+                        >
+                          {row['end-date']}
+                        </Moment>
+                      )
+                    }
                   </TableCell>
                 </TableRow>
               ))}
