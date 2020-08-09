@@ -25,7 +25,7 @@ import qs from 'querystring'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import StatusFilter from './statusFilter'
-import UpdateIcon from '@material-ui/icons/Update'
+import AutoRefresh from '../autoRefresh'
 
 const FiltersMenu = props => {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -152,6 +152,7 @@ class Jobs extends React.Component {
   constructor(props) {
     super(props)
     this.service = new JobService()
+    this.interval = null
   }
 
   componentDidMount() {
@@ -174,6 +175,15 @@ class Jobs extends React.Component {
     this.setState({
       data: response.data,
     })
+    params = this.getParams()
+    if (this.interval) {
+      clearInterval(this.interval)
+    }
+    if (params.update > 0) {
+      this.interval = setInterval(() => {
+        this.listJobs()
+      }, params.update * 1000)
+    }
   }
 
   handleChangePage = (event, newPage) => {
@@ -202,12 +212,14 @@ class Jobs extends React.Component {
     const params = {
       page: '0',
       size: '10',
+      update: '0',
       ...qs.parse(this.props.location.search.replace('?', '')),
     }
     return {
       ...params,
       page: Number.parseInt(params.page),
       size: Number.parseInt(params.size),
+      update: Number.parseInt(params.update),
     }
   }
 
@@ -222,6 +234,10 @@ class Jobs extends React.Component {
     }
   }
 
+  handleChangeAutoRefresh = newUpdate => {
+    this.updateParams({ update: newUpdate })
+  }
+
   onChangeFilter = (field, value) => {
     const oldParams = this.getParams()
     const params = { ...oldParams, page: 0 }
@@ -234,7 +250,7 @@ class Jobs extends React.Component {
   render() {
     const { data } = this.state
     const params = this.getParams()
-    const { page, size, status } = params
+    const { page, size, status, update } = params
     return (
       <>
         {data == null ? (
@@ -249,9 +265,10 @@ class Jobs extends React.Component {
                 <Button variant="contained" color="default">
                   New Job
                 </Button>
-                <IconButton aria-label="auto-refresh" color="default">
-                  <UpdateIcon />
-                </IconButton>
+                <AutoRefresh
+                  update={update}
+                  onChangeAutoRefresh={this.handleChangeAutoRefresh}
+                />
                 <FiltersMenu onStatusFilter={this.handleStatusFilter} />
               </Toolbar>
               <div>

@@ -60,7 +60,7 @@ class StatusFilter extends React.Component {
           onDelete={this.handleRemove}
         />
         <Dialog open={openDialog} aria-labelledby="status-filter-title">
-          <DialogTitle id="status-filter-title">Status Filter</DialogTitle>
+          <DialogTitle id="status-filter-title">Filter jobs by status</DialogTitle>
           <DialogContent>
             <div className="w-full max-w-xs">
               <div className="mb-4">
