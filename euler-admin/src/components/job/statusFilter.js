@@ -18,7 +18,6 @@ class StatusFilter extends React.Component {
   }
 
   componentDidMount() {
-    console.info(this.props)
     const formStatus = this.props.status ? this.props.status : 'ANY'
     this.setState({ formStatus: formStatus })
   }

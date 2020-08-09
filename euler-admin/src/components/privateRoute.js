@@ -1,10 +1,16 @@
 import React from 'react'
 import { navigate } from 'gatsby'
 import authService from '../services/auth'
+import qs from 'querystring'
 
 const PrivateRoute = ({ component: Component, location, ...rest }) => {
   if (!authService.isLoggedIn() && location.pathname !== `/app/login`) {
-    navigate(`/app/login?next=${location.pathname}`)
+    let next = location.pathname
+    if (location.search) {
+      next = `${location.pathname}${location.search}`
+    }
+    console.info(qs.stringify({ next }))
+    navigate(`/app/login?${qs.stringify({ next })}`)
     return null
   }
 

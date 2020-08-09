@@ -11,6 +11,8 @@ services:
    - .:/src
   ports:
    - 8000:8000
+  depends_on:
+   - euler-api
  euler-api:
   image: eulerio/euler-api:opendistro-http-api-0.1.3-SNAPSHOT
   volumes:
