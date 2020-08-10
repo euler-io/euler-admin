@@ -16,6 +16,7 @@ import {
   MenuItem,
   IconButton,
   Button,
+  Checkbox,
 } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
 import FilterListIcon from '@material-ui/icons/FilterList'
@@ -107,19 +108,6 @@ DateTableCell.propTypes = {
   date: PropTypes.string,
 }
 
-const JobRow = props => {
-  const { job } = props
-  return (
-    <TableRow key={job.id}>
-      <TableCell>{job.status}</TableCell>
-      <DateTableCell date={job['creation-date']} />
-      <DateTableCell date={job['enqueued-date']} />
-      <DateTableCell date={job['start-date']} />
-      <DateTableCell date={job['end-date']} />
-    </TableRow>
-  )
-}
-
 const TableSkeleton = props => {
   return (
     <Skeleton width="100%">
@@ -139,6 +127,19 @@ const TableSkeleton = props => {
   )
 }
 
+const JobRow = props => {
+  const { job } = props
+  return (
+    <>
+      <TableCell>{job.status}</TableCell>
+      <DateTableCell date={job['creation-date']} />
+      <DateTableCell date={job['enqueued-date']} />
+      <DateTableCell date={job['start-date']} />
+      <DateTableCell date={job['end-date']} />
+    </>
+  )
+}
+
 JobRow.propTypes = {
   job: PropTypes.object.isRequired,
 }
@@ -147,6 +148,8 @@ class Jobs extends React.Component {
   state = {
     data: null,
     openStatusFilter: false,
+    numSelected: undefined,
+    selected: new Set(),
   }
 
   constructor(props) {
@@ -238,6 +241,33 @@ class Jobs extends React.Component {
     this.updateParams({ update: newUpdate })
   }
 
+  handleSelectAllJobs = event => {
+    const selected = new Set(this.state.selected)
+    const { data } = this.state
+    if (
+      selected.size == data.jobs.length ||
+      selected.size > data.jobs.length / 2
+    ) {
+      selected.clear()
+    } else if (selected.size == 0 || selected.size <= data.jobs.length / 2) {
+      data.jobs.forEach(job => selected.add(job.id))
+    }
+
+    this.setState({ selected })
+  }
+
+  handleSelectJob = event => {
+    const selected = new Set(this.state.selected)
+    const { value } = event.target
+    if (selected.has(value)) {
+      selected.delete(value)
+    } else {
+      selected.add(event.target.value)
+    }
+
+    this.setState({ selected })
+  }
+
   onChangeFilter = (field, value) => {
     const oldParams = this.getParams()
     const params = { ...oldParams, page: 0 }
@@ -248,7 +278,7 @@ class Jobs extends React.Component {
   }
 
   render() {
-    const { data } = this.state
+    const { data, selected } = this.state
     const params = this.getParams()
     const { page, size, status, update } = params
     return (
@@ -283,19 +313,46 @@ class Jobs extends React.Component {
               <Table aria-label="Jobs Table">
                 <TableHead>
                   <TableRow>
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        indeterminate={
+                          selected.size > 0 && selected.size < data.jobs.length
+                        }
+                        checked={
+                          data.jobs.length > 0 &&
+                          selected.size === data.jobs.length
+                        }
+                        onChange={this.handleSelectAllJobs}
+                        inputProps={{ 'aria-label': 'select all jobs' }}
+                      />
+                    </TableCell>
                     <JobsHeaders />
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {data.jobs.map(row => (
-                    <JobRow key={row.id} job={row} />
-                  ))}
+                  {data.jobs.map(row => {
+                    const isItemSelected = selected.has(row.id)
+                    const labelId = `enhanced-table-checkbox-${row.id}`
+                    return (
+                      <TableRow key={row.id}>
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            checked={isItemSelected}
+                            inputProps={{ 'aria-labelledby': labelId }}
+                            value={row.id}
+                            onChange={this.handleSelectJob}
+                          />
+                        </TableCell>
+                        <JobRow job={row} />
+                      </TableRow>
+                    )
+                  })}
                 </TableBody>
                 <TableFooter>
                   <TableRow>
                     <TablePagination
                       rowsPerPageOptions={[10, 50, 100]}
-                      colSpan={5}
+                      colSpan={6}
                       count={data.total}
                       rowsPerPage={size}
                       page={page}
