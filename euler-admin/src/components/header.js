@@ -148,7 +148,7 @@ const Header = ({ siteTitle }) => {
               <ListItemText>Home</ListItemText>
             </ListItem>
           </Link>
-          <Link to="/app/job">
+          <Link to="/app/jobs">
             <ListItem button>
               <ListItemIcon>
                 <ListIcon />

@@ -9,7 +9,6 @@ const PrivateRoute = ({ component: Component, location, ...rest }) => {
     if (location.search) {
       next = `${location.pathname}${location.search}`
     }
-    console.info(qs.stringify({ next }))
     navigate(`/app/login?${qs.stringify({ next })}`)
     return null
   }

@@ -18,6 +18,7 @@ import {
   Button,
   Checkbox,
 } from '@material-ui/core'
+import { Link } from '@reach/router'
 import { Skeleton } from '@material-ui/lab'
 import FilterListIcon from '@material-ui/icons/FilterList'
 import Moment from 'react-moment'
@@ -131,7 +132,9 @@ const JobRow = props => {
   const { job } = props
   return (
     <>
-      <TableCell>{job.status}</TableCell>
+      <TableCell>
+        <Link to={`/app/job/${job.id}`}>{job.status}</Link>
+      </TableCell>
       <DateTableCell date={job['creation-date']} />
       <DateTableCell date={job['enqueued-date']} />
       <DateTableCell date={job['start-date']} />
@@ -292,7 +295,7 @@ class Jobs extends React.Component {
                 <Typography className="flex-1" variant="h6" component="div">
                   Jobs
                 </Typography>
-                <Button variant="contained" color="default">
+                <Button href="/app/job" variant="contained" color="default">
                   New Job
                 </Button>
                 <AutoRefresh
