@@ -21,6 +21,8 @@ import {
 import { Link } from '@reach/router'
 import { Skeleton } from '@material-ui/lab'
 import FilterListIcon from '@material-ui/icons/FilterList'
+import PlayIcon from '@material-ui/icons/PlayArrow'
+import CancelIcon from '@material-ui/icons/Cancel'
 import Moment from 'react-moment'
 import { navigate } from 'gatsby'
 import qs from 'querystring'
@@ -147,6 +149,19 @@ JobRow.propTypes = {
   job: PropTypes.object.isRequired,
 }
 
+const JobActions = props => {
+  return (
+    <div className="mr-8">
+      <IconButton aria-label="play" color="primary">
+        <PlayIcon />
+      </IconButton>
+      <IconButton aria-label="cancel" color="secondary">
+        <CancelIcon />
+      </IconButton>
+    </div>
+  )
+}
+
 class Jobs extends React.Component {
   state = {
     data: null,
@@ -248,11 +263,11 @@ class Jobs extends React.Component {
     const selected = new Set(this.state.selected)
     const { data } = this.state
     if (
-      selected.size == data.jobs.length ||
+      selected.size === data.jobs.length ||
       selected.size > data.jobs.length / 2
     ) {
       selected.clear()
-    } else if (selected.size == 0 || selected.size <= data.jobs.length / 2) {
+    } else if (selected.size === 0 || selected.size <= data.jobs.length / 2) {
       data.jobs.forEach(job => selected.add(job.id))
     }
 
@@ -295,6 +310,7 @@ class Jobs extends React.Component {
                 <Typography className="flex-1" variant="h6" component="div">
                   Jobs
                 </Typography>
+                <JobActions />
                 <Button href="/app/job" variant="contained" color="default">
                   New Job
                 </Button>
