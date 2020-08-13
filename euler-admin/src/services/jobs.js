@@ -13,6 +13,13 @@ class JobService {
       },
     })
   }
+  createJob = (job, enqueue) => {
+    return axios.put('/job', job, {
+      params: {
+        enqueue,
+      },
+    })
+  }
 }
 
 export default JobService

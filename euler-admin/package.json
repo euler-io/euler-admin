@@ -28,6 +28,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1",
+    "react-json-editor-ajrm": "^2.5.9",
     "react-material-ui-form-validator": "^2.1.1",
     "react-moment": "^0.9.7",
     "tailwindcss": "^1.6.0",
