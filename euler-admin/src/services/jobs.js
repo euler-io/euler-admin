@@ -26,6 +26,9 @@ class JobService {
   enqueueJob = jobId => {
     return axios.post(`/job/${jobId}`)
   }
+  getJobDetails = jobId => {
+    return axios.get(`/job/${jobId}`)
+  }
 }
 
 export default JobService
