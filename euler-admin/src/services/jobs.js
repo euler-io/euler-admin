@@ -20,6 +20,12 @@ class JobService {
       },
     })
   }
+  cancelJob = jobId => {
+    return axios.delete(`/job/${jobId}`)
+  }
+  enqueueJob = jobId => {
+    return axios.post(`/job/${jobId}`)
+  }
 }
 
 export default JobService

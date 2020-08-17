@@ -38,7 +38,7 @@ class NewJob extends React.Component {
     event.preventDefault()
     const { seed, config, enqueue } = this.state
     const job = { seed, config }
-    this.createJob(job, true)
+    this.createJob(job, enqueue)
   }
 
   async createJob(job, enqueue) {

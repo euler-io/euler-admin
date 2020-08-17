@@ -90,6 +90,7 @@ const JobsHeaders = () => {
       <TableCell>Enqueued</TableCell>
       <TableCell>Start</TableCell>
       <TableCell>End</TableCell>
+      <TableCell></TableCell>
     </>
   )
 }
@@ -130,36 +131,48 @@ const TableSkeleton = props => {
   )
 }
 
+const CANCELABLE_STATUS = new Set(['NEW', 'ENQUEUED', 'RUNNING'])
+
 const JobRow = props => {
-  const { job } = props
+  const { job, onJobEnqueue, onJobCancel } = props
+  const { status, id } = job
   return (
     <>
       <TableCell>
-        <Link to={`/app/job/${job.id}`}>{job.status}</Link>
+        <Link to={`/app/job/${id}`}>{status}</Link>
       </TableCell>
       <DateTableCell date={job['creation-date']} />
       <DateTableCell date={job['enqueued-date']} />
       <DateTableCell date={job['start-date']} />
       <DateTableCell date={job['end-date']} />
+      <TableCell>
+        {status === 'NEW' && (
+          <IconButton
+            aria-label="play"
+            color="primary"
+            onClick={event => onJobEnqueue(id)}
+          >
+            <PlayIcon />
+          </IconButton>
+        )}
+        {CANCELABLE_STATUS.has(status) && (
+          <IconButton
+            aria-label="cancel"
+            color="secondary"
+            onClick={event => onJobCancel(id)}
+          >
+            <CancelIcon />
+          </IconButton>
+        )}
+      </TableCell>
     </>
   )
 }
 
 JobRow.propTypes = {
   job: PropTypes.object.isRequired,
-}
-
-const JobActions = props => {
-  return (
-    <div className="mr-8">
-      <IconButton aria-label="play" color="primary">
-        <PlayIcon />
-      </IconButton>
-      <IconButton aria-label="cancel" color="secondary">
-        <CancelIcon />
-      </IconButton>
-    </div>
-  )
+  onJobEnqueue: PropTypes.func.isRequired,
+  onJobCancel: PropTypes.func.isRequired,
 }
 
 class Jobs extends React.Component {
@@ -295,6 +308,18 @@ class Jobs extends React.Component {
     }
   }
 
+  handleOnJobCancel = jobId => {
+    this.service.cancelJob(jobId).then(response => {
+      this.listJobs()
+    })
+  }
+
+  handleOnJobEnqueue = jobId => {
+    this.service.enqueueJob(jobId).then(response => {
+      this.listJobs()
+    })
+  }
+
   render() {
     const { data, selected } = this.state
     const params = this.getParams()
@@ -310,7 +335,6 @@ class Jobs extends React.Component {
                 <Typography className="flex-1" variant="h6" component="div">
                   Jobs
                 </Typography>
-                <JobActions />
                 <Button href="/app/job" variant="contained" color="default">
                   New Job
                 </Button>
@@ -362,7 +386,11 @@ class Jobs extends React.Component {
                             onChange={this.handleSelectJob}
                           />
                         </TableCell>
-                        <JobRow job={row} />
+                        <JobRow
+                          job={row}
+                          onJobCancel={this.handleOnJobCancel}
+                          onJobEnqueue={this.handleOnJobEnqueue}
+                        />
                       </TableRow>
                     )
                   })}
@@ -371,7 +399,7 @@ class Jobs extends React.Component {
                   <TableRow>
                     <TablePagination
                       rowsPerPageOptions={[10, 50, 100]}
-                      colSpan={6}
+                      colSpan={7}
                       count={data.total}
                       rowsPerPage={size}
                       page={page}
