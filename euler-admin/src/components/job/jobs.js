@@ -18,7 +18,6 @@ import {
   Button,
   Checkbox,
 } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
 import { Link } from '@reach/router'
 import { Skeleton } from '@material-ui/lab'
 import FilterListIcon from '@material-ui/icons/FilterList'
@@ -31,8 +30,6 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import StatusFilter from './statusFilter'
 import AutoRefresh from '../autoRefresh'
-
-const useStyles = makeStyles(theme => ({}))
 
 const FiltersMenu = props => {
   const [anchorEl, setAnchorEl] = React.useState(null)

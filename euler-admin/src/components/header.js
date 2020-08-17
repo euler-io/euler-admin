@@ -156,6 +156,14 @@ const Header = ({ siteTitle }) => {
               <ListItemText>Jobs</ListItemText>
             </ListItem>
           </Link>
+          <Link to="/app/templates">
+            <ListItem button>
+              <ListItemIcon>
+                <ListIcon />
+              </ListItemIcon>
+              <ListItemText>Templates</ListItemText>
+            </ListItem>
+          </Link>
         </List>
       </Drawer>
     </div>
