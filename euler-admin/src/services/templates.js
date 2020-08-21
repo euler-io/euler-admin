@@ -12,8 +12,8 @@ class TemplateService {
       },
     })
   }
-  createTemplate = template => {
-    return axios.put('/template', template)
+  createTemplate = (name, config) => {
+    return axios.put('/template', { name, config })
   }
   getTemplateDetails = templateName => {
     return axios.get(`/template/${templateName}`)

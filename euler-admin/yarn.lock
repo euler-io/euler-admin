@@ -6944,6 +6944,11 @@ hmac-drbg@^1.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
+hocon-parser@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/hocon-parser/-/hocon-parser-1.0.1.tgz#b79b66143999b255e08b673c83291b5e363f0b78"
+  integrity sha1-t5tmFDmZslXgi2c8gykbXjY/C3g=
+
 hoek@4.x.x:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-4.2.1.tgz#9634502aa12c445dd5a7c5734b572bb8738aacbb"

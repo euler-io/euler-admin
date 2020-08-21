@@ -8,7 +8,7 @@ class JobService {
         page: 0,
         size: 10,
         'sort-by': 'CREATION_DATE',
-        'sort-direction': 'ASC',
+        'sort-direction': 'DESC',
         ...params,
       },
     })
