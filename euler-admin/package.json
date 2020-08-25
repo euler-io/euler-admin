@@ -1,9 +1,8 @@
 {
-  "name": "gatsby-starter-material-ui",
+  "name": "euler-admin-app",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby and Material UI",
-  "version": "0.1.0",
-  "author": "Dominic Abela <djmabela@gmail.com>",
+  "description": "Euler Admin APP",
+  "version": "0.1.0-SNAPSHOT",
   "dependencies": {
     "@material-ui/core": "^4.0.1",
     "@material-ui/icons": "^4.2.0",
@@ -38,9 +37,9 @@
     "prettier": "^1.18.2"
   },
   "keywords": [
-    "gatsby"
+    "euler"
   ],
-  "license": "MIT",
+  "license": "GPL 3.0",
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
@@ -51,9 +50,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dominicabela/gatsby-starter-material-ui"
+    "url": "https://github.com/euler-io/euler-admin"
   },
   "bugs": {
-    "url": "https://github.com/dominicabela/gatsby-starter-material-ui/issues"
+    "url": "https://github.com/euler-io/euler-admin/issues"
   }
 }

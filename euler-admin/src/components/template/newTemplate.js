@@ -8,7 +8,7 @@ import { navigate } from 'gatsby'
 class NewTemplate extends React.Component {
   state = {
     name: null,
-    config: null,
+    config: '',
   }
   constructor(props) {
     super(props)
@@ -29,6 +29,10 @@ class NewTemplate extends React.Component {
   async createTemplate(name, config) {
     const response = await this.service.createTemplate(name, config)
     navigate(`/app/templates`)
+  }
+
+  goBack() {
+    navigate(-1)
   }
 
   render() {

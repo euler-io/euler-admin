@@ -20,7 +20,8 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import HomeIcon from '@material-ui/icons/Home'
-import ListIcon from '@material-ui/icons/ViewList'
+import JobsIcon from '@material-ui/icons/PlayArrow'
+import TemplatesIcon from '@material-ui/icons/PlaylistPlay'
 
 const drawerWidth = 240
 
@@ -33,7 +34,7 @@ const useStyles = makeStyles(theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    background: 'linear-gradient(to right,  #663399, #5B72FF)',
+    background: 'linear-gradient(to right,  #000096, #333)',
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -151,7 +152,7 @@ const Header = ({ siteTitle }) => {
           <Link to="/app/jobs">
             <ListItem button>
               <ListItemIcon>
-                <ListIcon />
+                <JobsIcon />
               </ListItemIcon>
               <ListItemText>Jobs</ListItemText>
             </ListItem>
@@ -159,7 +160,7 @@ const Header = ({ siteTitle }) => {
           <Link to="/app/templates">
             <ListItem button>
               <ListItemIcon>
-                <ListIcon />
+                <TemplatesIcon />
               </ListItemIcon>
               <ListItemText>Templates</ListItemText>
             </ListItem>
